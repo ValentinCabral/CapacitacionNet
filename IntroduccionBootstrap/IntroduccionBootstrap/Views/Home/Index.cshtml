@@ -1,0 +1,128 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!--Mostrar modal-->
+<button type="button" class="btn btn-primary" data-bs-target="#modalForm" data-bs-toggle="modal">Abrir modal</button>
+<hr />
+
+<!--Modal-->
+<div class="modal fade" id="modalForm" tabindex="-1" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Titulo modal</h5>
+                <button class="btn btn-close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Formulario</p>
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Apellido</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Carrusel-->
+
+
+<h2>Carousel</h2>
+
+<div id="carouselPhotos" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://3.bp.blogspot.com/-JxYjZjRXIh4/VDWJoJPtYuI/AAAAAAACVDM/C9r2wraqtlQ/s1600/paisajes%2Bnaturales%2Bfotos%2Bnuevas%2B(10).jpg" class="d-block w-100" />
+        </div> 
+        <div class="carousel-item">
+            <img src="https://1.bp.blogspot.com/-ur_mJcStlis/VAc2aa3bbSI/AAAAAAACTYI/gCf_p25rvKI/s1600/paisajes%2Bnaturales%2B-%2Bnaturaleza%2B-%2Bnatural%2Bfree%2Blandscapes%2B-%2Bfotos%2Bde%2Bpaisajes.jpg" class="d-block w-100" />
+        </div>
+        <div class="carousel-item">
+            <img src="https://th.bing.com/th/id/R.d9b7fae9cdff06be56e229c8c146232d?rik=Kp8EVErxwmNOJw&riu=http%3a%2f%2f2.bp.blogspot.com%2f-sOSqPmJVQqw%2fUrCBg8FgQgI%2fAAAAAAAAUH0%2f8nhljLeVDL4%2fs1600%2fpaisaje-naturaleza-5.jpg&ehk=MXDtQ4RyqGHQEi%2bM4EZtNpkJI60dMrl8aOpeSNTpc00%3d&risl=&pid=ImgRaw&r=0" class="d-blocl w-100" />
+        </div>
+    </div>
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselPhotos" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#carouselPhotos" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#carouselPhotos" data-bs-slide-to="2"></button>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPhotos" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button type="button" class="carousel-control-next" data-bs-target="#carouselPhotos" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+
+<!--TABS-->
+<br />
+<br />
+
+<ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#cont1">Tab 1</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#cont2">Tab 2</button>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <p class="tab-pane fade show active" id="cont1">Hola mundo</p>
+    <p class="tab-pane fade" id="cont2">Chau mundo</p>
+</div>
+
+
+<!-- Menu lateral -->
+
+<button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEj">Abrir menu</button>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasEj">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Titulo</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <p>Cuerpo del canvas(menu)</p>
+    </div>
+</div>
+
+<!-- Toasts -->
+<hr />
+<button class="btn btn-primary" onclick="mostrarToast()">Mostrar</button>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:11;">
+    <div class="toast" id="toastEj">
+        <div class="toast-header">
+            <strong class="me-auto">Mensaje enviado</strong>
+            <small>Hace unos instantes</small>
+            <button class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+            <p>Hola mundo hola mundo</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        function mostrarToast(){
+            var ejemploToast = document.getElementById('toastEj');
+            var toast = new bootstrap.Toast(ejemploToast);
+            toast.show();
+        }
+
+    </script>
+}
