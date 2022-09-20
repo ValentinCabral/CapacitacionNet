@@ -24,3 +24,7 @@ C:\Users\vcabral\Desktop\Curso C#\Portafolio\Portafolio\obj\Debug\net6.0\refint\
 C:\Users\vcabral\Desktop\Curso C#\Portafolio\Portafolio\obj\Debug\net6.0\Portafolio.pdb
 C:\Users\vcabral\Desktop\Curso C#\Portafolio\Portafolio\obj\Debug\net6.0\Portafolio.genruntimeconfig.cache
 C:\Users\vcabral\Desktop\Curso C#\Portafolio\Portafolio\obj\Debug\net6.0\ref\Portafolio.dll
+C:\Users\vcabral\Desktop\Curso C#\Portafolio\Portafolio\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\vcabral\Desktop\Curso C#\Portafolio\Portafolio\bin\Debug\net6.0\SendGrid.dll
+C:\Users\vcabral\Desktop\Curso C#\Portafolio\Portafolio\bin\Debug\net6.0\StarkbankEcdsa.dll
+C:\Users\vcabral\Desktop\Curso C#\Portafolio\Portafolio\obj\Debug\net6.0\Portafolio.csproj.CopyComplete
