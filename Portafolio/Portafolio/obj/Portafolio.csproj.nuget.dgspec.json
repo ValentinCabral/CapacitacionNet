@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vcabral\\Desktop\\Curso C#\\Portafolio\\Portafolio\\Portafolio.csproj": {}
+    "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\Portafolio\\Portafolio\\Portafolio.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vcabral\\Desktop\\Curso C#\\Portafolio\\Portafolio\\Portafolio.csproj": {
+    "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\Portafolio\\Portafolio\\Portafolio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vcabral\\Desktop\\Curso C#\\Portafolio\\Portafolio\\Portafolio.csproj",
+        "projectUniqueName": "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\Portafolio\\Portafolio\\Portafolio.csproj",
         "projectName": "Portafolio",
-        "projectPath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\Portafolio\\Portafolio\\Portafolio.csproj",
+        "projectPath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\Portafolio\\Portafolio\\Portafolio.csproj",
         "packagesPath": "C:\\Users\\vcabral\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\Portafolio\\Portafolio\\obj\\",
+        "outputPath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\Portafolio\\Portafolio\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
