@@ -12,6 +12,7 @@ namespace ManejoPresupuesto.Servicios
         Task<bool> Existe(string nombre, int usuarioId);
         Task<IEnumerable<TipoCuenta>> Obtener(int usuarioId);
         Task<TipoCuenta> ObtenerPorId(int Id, int UsuarioId);
+        Task Ordenar(IEnumerable<TipoCuenta> tipoCuentasOrdenados);
     }
     public class RepositorioTipoCuentas : IRepositorioTipoCuentas
     {
@@ -26,9 +27,24 @@ namespace ManejoPresupuesto.Servicios
         public async Task Crear(TipoCuenta tipoCuenta)
         {
             using var connection = new SqlConnection(connectionString);
+            // La cantidad de elementos que hay en la tabla de SQL
+            var cantidadDeElementos = await connection.QuerySingleAsync<int>($@"SELECT COUNT (*) FROM TiposCuentas");
+            if(cantidadDeElementos == 0)
+            {
+                // Si no tiene ninguno entonces el orden tiene que arrancar por 1
+                tipoCuenta.Orden = 1;
+            }else 
+            {
+                /*
+                 Pero si tiene elementos, selecciono el Orden del elemento que tenga el maximo orden y le sumo uno
+                 Ya que se supone que los elementos de la tabla deberian estar ordenados en orden.
+                 */
+                tipoCuenta.Orden = await connection.QuerySingleAsync<int>($@"SELECT Orden FROM TiposCuentas WHERE Orden = (SELECT MAX(Orden) FROM TiposCuentas)") + 1;
+            }
+            // Creo el nuevo elemento en la tabla con el nombre, usuario id y orden especificados, y guardo su ID.
             var Id = await connection.QuerySingleAsync<int>(@"
                 INSERT INTO TiposCuentas (Nombre, UsuarioId, Orden)
-                VALUES (@Nombre, @UsuarioId, 0);
+                VALUES (@Nombre, @UsuarioId, @Orden);
                 SELECT SCOPE_IDENTITY();", tipoCuenta
                 );
             tipoCuenta.Id = Id;
@@ -51,7 +67,11 @@ namespace ManejoPresupuesto.Servicios
         public async Task<IEnumerable<TipoCuenta>> Obtener(int usuarioId)
         {
             using var connection = new SqlConnection(connectionString);
-            return await connection.QueryAsync<TipoCuenta>($"SELECT Id, Nombre, Orden FROM TiposCuentas WHERE UsuarioId = @UsuarioId", new {usuarioId});
+            return await connection.QueryAsync<TipoCuenta>(@$"
+                            SELECT Id, Nombre, Orden 
+                            FROM TiposCuentas 
+                            WHERE UsuarioId = @UsuarioId
+                            ORDER BY Orden", new {usuarioId});
         }
 
         public async Task Actualizar(TipoCuenta tipoCuenta) {
@@ -60,7 +80,6 @@ namespace ManejoPresupuesto.Servicios
                                              UPDATE TiposCuentas
                                              SET Nombre = @Nombre
                                              WHERE Id = @Id", tipoCuenta);
-
         }
 
         public async Task<TipoCuenta> ObtenerPorId(int id, int usuarioId)
@@ -78,6 +97,18 @@ namespace ManejoPresupuesto.Servicios
             await connection.ExecuteAsync($@"
                                             DELETE TiposCuentas
                                             WHERE Id = @Id", new {id});
+        }
+
+        /*
+         * Dado un enumerable de tiposCuentas
+         * Actualizo ordenando los ordenes
+         */
+        public async Task Ordenar(IEnumerable<TipoCuenta> tipoCuentasOrdenados)
+        {
+            var query = "UPDATE TiposCuentas SET Orden = @Orden WHERE Id = @Id";
+            using var connection = new SqlConnection(connectionString);
+            // Ejecuta el query en cada tipoCuenta que este en tipoCuentasOrdenados
+            await connection.ExecuteAsync(query, tipoCuentasOrdenados);
         }
 
     }

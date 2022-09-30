@@ -28,12 +28,22 @@ namespace ManejoPresupuesto.Controllers
             return View(tiposCuentas);
         }
 
+        /* 
+         * Accion para crear un nuevo elemento en la tabla de tipos cuentas
+         * Solo la vista
+         */
         public IActionResult Crear()
         {
             return View();
         }
 
+
         [HttpPost]
+        /*
+         * Accion que recibe un nuevo elemento tipoCuenta desde un formulario
+         * y lo agrega en la tabla.
+         * A su vez si el tipoCuenta ya existe tira un error, y tiene validaciones
+         */
         public async Task<IActionResult> Crear(TipoCuenta tipoCuenta)
         {
             if (!ModelState.IsValid)
@@ -53,7 +63,12 @@ namespace ManejoPresupuesto.Controllers
             return RedirectToAction("Index");
         }
 
+
         [HttpGet]
+        /*
+         * Accion que me lleva a la vista de edicion de un elemento de la tabla
+         * Si el elemento no fue encontrado me lleva a la vista de un error
+         */
         public async Task<IActionResult> Editar(int id)
         {
             var usuarioId = ServicioUsuarios.ObtenerUsuarioId();
@@ -66,6 +81,11 @@ namespace ManejoPresupuesto.Controllers
         }
 
         [HttpPost]
+        /*
+         * Accion que me permite editar un elemento tipoCuenta de la tabla
+         * gracias a un formulario
+         * Tiene validaciones por si el tipoCuenta no existe.
+         */
         public async Task<IActionResult> Editar(TipoCuenta tipoCuenta)
         {
             var usuarioId = ServicioUsuarios.ObtenerUsuarioId();
@@ -80,6 +100,9 @@ namespace ManejoPresupuesto.Controllers
 
 
         [HttpGet]
+        /*
+         * Accion que dado un nombre de un tipoCuenta me dice si ya existe o no
+         */
         public async Task<IActionResult> VerificarExisteTipoCuenta(string nombre)
         {
             var usuarioId = ServicioUsuarios.ObtenerUsuarioId();
@@ -91,6 +114,10 @@ namespace ManejoPresupuesto.Controllers
             return Json(true);
         }
 
+        /*
+         * Accion que me lleva a la vista para borrar un tipoCuenta
+         * Si el mismo no existe me da un error
+         */
         public async Task<IActionResult> Borrar(int id)
         {
             var usuarioId = ServicioUsuarios.ObtenerUsuarioId();
@@ -104,6 +131,9 @@ namespace ManejoPresupuesto.Controllers
         }
 
         [HttpPost]
+        /*
+         * Accion que borra el tipoCuenta
+         */
         public async Task<IActionResult> BorrarTipoCuenta(int id)
         {
             var usuarioId = ServicioUsuarios.ObtenerUsuarioId();
@@ -116,5 +146,33 @@ namespace ManejoPresupuesto.Controllers
             return RedirectToAction("Index");
 
         }
+
+        [HttpPost]
+        /*
+         * Accion que recibe un arreglo de ids desde el cuerpo de la vista
+        */
+
+        public async Task<IActionResult> Ordenar([FromBody] int[] ids)
+        {
+            var usuarioId = ServicioUsuarios.ObtenerUsuarioId();
+            // Obtengo todos los tipoCuenta de ese usuarioId
+            var tiposCuentas = await RepositorioTipoCuentas.Obtener(usuarioId);
+
+            // Guardo los ids de los tipos cuentas que tengo en tiposCuentas
+            var idsTiposCuentas = tiposCuentas.Select(x => x.Id);
+
+            var idsTiposCuentasNoPertenecenAlUsuario = ids.Except(idsTiposCuentas).ToList();
+
+            if(idsTiposCuentasNoPertenecenAlUsuario.Count > 0)
+            {
+                return Forbid();
+            }
+
+            var tiposCuentasOrdenados = ids.Select((valor, indice) =>
+            new TipoCuenta() { Id = valor, Orden = indice+1}).AsEnumerable();
+
+            await RepositorioTipoCuentas.Ordenar(tiposCuentasOrdenados);
+            return Ok();
+        } 
     }
 }
