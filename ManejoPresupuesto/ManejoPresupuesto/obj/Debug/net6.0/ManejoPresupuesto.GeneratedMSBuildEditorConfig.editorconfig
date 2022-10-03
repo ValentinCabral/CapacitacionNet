@@ -15,12 +15,32 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\vcabral\Desktop\Curso C#\ManejoPresupuesto\ManejoPresupuesto
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Categorias/Borrar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xCb3JyYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Categorias/Crear.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xDcmVhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Categorias/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xFZGl0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Categorias/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Cuentas/Borrar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhc1xCb3JyYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Cuentas/Crear.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhc1xDcmVhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Cuentas/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhc1xJbmRleC5jc2h0bWw=
+[C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Cuentas/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhc1xFZGl0YXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Home/Index.cshtml]
@@ -66,6 +86,10 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Cuentas/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-05jcn8n5mf
 
 [C:/Users/vcabral/Desktop/Curso C\#/ManejoPresupuesto/ManejoPresupuesto/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s

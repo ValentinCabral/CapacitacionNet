@@ -1,5 +1,94 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<IndiceCuentasViewModel>
 @{
+    ViewData["Title"] = "Cuentas";
+
+    /*
+    * Funcion para formatear los balances
+    * (Agregar las , donde corresponda)
+    */
+
+    string FormatearBalance(decimal balance){
+        // Con "N" le digo que es un numero para que me lo formatee, con abs lo lleve a positivo.
+        return Math.Abs(balance).ToString("N");
+    }
+
+    string ObtenerClaseBalance(decimal balance){
+        return balance >= 0 ? "activo" : "pasivo";
+    }
 }
+
+<h1>Crear</h1>
+
+<a asp-action="Crear" class="btn btn-primary mb-3">Crear nuevo</a>
+
+<div class="container contenedor-totales mb-3">
+    <div>
+        <div>
+            <strong>Activos</strong>
+        </div>
+        <div class="activo">
+            <!--La suma de todos los positivos-->
+            @FormatearBalance(Model.Where(x => x.Balance >= 0).Sum(x => x.Balance))
+        </div>
+    </div>
+    <div>
+        <div>
+            <strong>Pasivos</strong>
+        </div>
+        <div class="pasivo">
+            <!--La suma de todos los negativos-->
+            @FormatearBalance(Model.Where(x => x.Balance < 0).Sum(x => x.Balance))
+        </div>
+    </div>
+    <div>
+        <div>
+            <strong>Total</strong>
+        </div>
+        <div>
+            <!--El total entre positivos y negativos-->
+            @FormatearBalance(Model.Sum(x => x.Balance))
+        </div>
+    </div>
+</div>
+
+<div class="accordion acordeon-cuentas">
+    @foreach(var tipoCuenta in Model){
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="cabeceraUno">
+                @{
+                    // Reemplazo los espacios y los saco por si algun tipo cuenta tiene espacios
+                    var id = tipoCuenta.TipoCuenta.Replace(" ", "");
+
+                    //Genero un id para los acordeones, por que cada div necesita uno para poder cerrar y abrir
+                    var dataBSTarget = "#" + id;
+
+                    // Quiero saber si es activo o pasivo
+                    var claseTipoCuenta = ObtenerClaseBalance(tipoCuenta.Balance);
+                }
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="@dataBSTarget">
+                    <span class="me-3">
+                        <span><strong>@tipoCuenta.TipoCuenta</strong></span>
+                        <span class="@claseTipoCuenta">@FormatearBalance(tipoCuenta.Balance)</span>
+                    </span>
+                </button>
+            </h2>
+            <div id="@id" class="accordion-collapse collapse show">
+                <div>
+                    <ul class="list-group">
+                        @foreach(var cuenta in tipoCuenta.Cuentas){
+                            var claseCuenta = ObtenerClaseBalance(cuenta.Balance);
+                            <li class="list-group-item">
+                                <span>
+                                    <strong>@cuenta.Nombre</strong>
+                                    <a asp-action="Editar" asp-route-id="@cuenta.Id" class="btn-primary btn"><i class="bi-pencil-fill"></i></a>
+                                    <a class="btn-danger btn" asp-action="Borrar" asp-route-id="@cuenta.Id"><i class="bi-trash-fill"></i></a>
+                                </span>
+                                <span class="@claseCuenta">@FormatearBalance(cuenta.Balance)</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</div>
