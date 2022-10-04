@@ -5,7 +5,7 @@
 
 <div class="container">
     <h1 class="mb-3">Personas</h1>
-    @if(Model is null){
+    @if(Model.Count() == 0){
         <h5>Aún no hay personas en la tabla</h5>
         <a asp-action="Agregar" class="btn btn-success mb-3">Agregar</a>
     }else{

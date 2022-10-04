@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lS41gBh7DXlS+f41eZQV3MANVruD8M6cBpSgd6H3rrP2eDLsIfwpjb8K2dpIjLtstZu/Hb1RtiVre7ARaqF8nA==",
+  "dgSpecHash": "rj+lgrMXtXhYQAlCvrq6mgcyZ/nPB07X+FcrfkDxpPLkLJ7Hma5AcPi3DOCYebspI/MTv7amEQrLW6dK+s0mIg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj",
+  "projectFilePath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vcabral\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\vcabral\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

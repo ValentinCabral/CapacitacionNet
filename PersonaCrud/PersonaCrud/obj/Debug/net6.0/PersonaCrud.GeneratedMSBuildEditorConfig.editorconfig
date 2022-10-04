@@ -8,45 +8,45 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PersonaCrud
 build_property.RootNamespace = PersonaCrud
-build_property.ProjectDir = C:\Users\vcabral\Desktop\Curso C#\PersonaCrud\PersonaCrud\
+build_property.ProjectDir = C:\Users\vcabral\Desktop\Curso C#\CapacitacionNet\PersonaCrud\PersonaCrud\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\vcabral\Desktop\Curso C#\PersonaCrud\PersonaCrud
+build_property.MSBuildProjectDirectory = C:\Users\vcabral\Desktop\Curso C#\CapacitacionNet\PersonaCrud\PersonaCrud
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/PersonaCrud/PersonaCrud/Views/Home/Agregar.cshtml]
+[C:/Users/vcabral/Desktop/Curso C\#/CapacitacionNet/PersonaCrud/PersonaCrud/Views/Home/Agregar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZ3JlZ2FyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/PersonaCrud/PersonaCrud/Views/Home/Eliminar.cshtml]
+[C:/Users/vcabral/Desktop/Curso C\#/CapacitacionNet/PersonaCrud/PersonaCrud/Views/Home/Eliminar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFbGltaW5hci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/PersonaCrud/PersonaCrud/Views/Home/Index.cshtml]
+[C:/Users/vcabral/Desktop/Curso C\#/CapacitacionNet/PersonaCrud/PersonaCrud/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/PersonaCrud/PersonaCrud/Views/Home/NoEncontrado.cshtml]
+[C:/Users/vcabral/Desktop/Curso C\#/CapacitacionNet/PersonaCrud/PersonaCrud/Views/Home/NoEncontrado.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOb0VuY29udHJhZG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/PersonaCrud/PersonaCrud/Views/Shared/Error.cshtml]
+[C:/Users/vcabral/Desktop/Curso C\#/CapacitacionNet/PersonaCrud/PersonaCrud/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/PersonaCrud/PersonaCrud/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/vcabral/Desktop/Curso C\#/CapacitacionNet/PersonaCrud/PersonaCrud/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/PersonaCrud/PersonaCrud/Views/_ViewImports.cshtml]
+[C:/Users/vcabral/Desktop/Curso C\#/CapacitacionNet/PersonaCrud/PersonaCrud/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/PersonaCrud/PersonaCrud/Views/_ViewStart.cshtml]
+[C:/Users/vcabral/Desktop/Curso C\#/CapacitacionNet/PersonaCrud/PersonaCrud/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vcabral/Desktop/Curso C\#/PersonaCrud/PersonaCrud/Views/Shared/_Layout.cshtml]
+[C:/Users/vcabral/Desktop/Curso C\#/CapacitacionNet/PersonaCrud/PersonaCrud/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-x52tghumr6

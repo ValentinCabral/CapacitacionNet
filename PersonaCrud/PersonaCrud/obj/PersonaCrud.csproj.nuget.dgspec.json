@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vcabral\\Desktop\\Curso C#\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj": {}
+    "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vcabral\\Desktop\\Curso C#\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj": {
+    "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vcabral\\Desktop\\Curso C#\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj",
+        "projectUniqueName": "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj",
         "projectName": "PersonaCrud",
-        "projectPath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj",
+        "projectPath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\PersonaCrud\\PersonaCrud\\PersonaCrud.csproj",
         "packagesPath": "C:\\Users\\vcabral\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\PersonaCrud\\PersonaCrud\\obj\\",
+        "outputPath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\PersonaCrud\\PersonaCrud\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
