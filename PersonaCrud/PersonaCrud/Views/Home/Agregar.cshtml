@@ -1,0 +1,26 @@
+﻿@model Persona
+@{
+    ViewData["Title"] = "Agregar persona";
+}
+
+<div class="container">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Agregar">
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Apellido" class="form-label"></label>
+            <input asp-for="Apellido" class="form-control" />
+            <span asp-validation-for="Apellido" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"></partial>
+}
