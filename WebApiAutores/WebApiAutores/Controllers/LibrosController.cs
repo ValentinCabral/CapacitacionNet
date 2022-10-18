@@ -25,6 +25,11 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<Libro>> Get(int id)
         {
+            var existeLibro = await context.Libros.AnyAsync(x => x.Id == id);
+            if (!existeLibro)
+            {
+                return NotFound();
+            }
             // Con el include traigo el autor de ese libro
             return await context.Libros.Include(x => x.Autor).FirstOrDefaultAsync(x => x.Id == id);
         }

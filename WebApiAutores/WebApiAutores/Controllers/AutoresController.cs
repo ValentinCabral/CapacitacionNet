@@ -16,6 +16,7 @@ namespace WebApiAutores.Controllers
         }
 
         [HttpGet]
+        [HttpGet("/listado")]
         /*
          * Este método Get devuelve una lista de autores
          * La cual la trae desde la tabla Autores del DbContext
@@ -24,6 +25,67 @@ namespace WebApiAutores.Controllers
         {
             // El include es para traer los libros del autor
             return await context.Autores.Include(x => x.Libros).ToListAsync();
+        }
+
+        [HttpGet("primero")]
+        /*
+         * Devuelve solo el primer autor
+        */
+        public async Task<ActionResult<Autor>> PrimerAutor()
+        {
+            return await context.Autores.FirstOrDefaultAsync();
+        }
+
+        [HttpGet("{id:int}")]
+        /*
+         * Devuelve un autor segun su id
+        */
+        public async Task<ActionResult<Autor>> GetId(int id)
+        {
+            var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Id == id);
+
+            if(autor is null)
+            {
+                return NotFound();
+            }
+
+            return autor;
+        }
+
+        [HttpGet("{nombre}")]
+        /*
+         * Devuelve un autor segun su nombre
+         * Si contiene el string tambien lo devuelve
+         * Ejemplo Autor: Valentin Cabral
+         * Si paso "Valentin" lo devuelve
+        */
+        public async Task<ActionResult<Autor>> GetNombre (string nombre)
+        {
+            var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Nombre.Contains(nombre));
+
+            if(autor is null)
+            {
+                return NotFound();
+            }
+
+            return autor;
+        }
+
+        [HttpGet("listado/{nombre}")]
+        /*
+         * Devuelve la lista de todos los autores que contengan el string
+        */
+        public async Task<ActionResult<List<Autor>>> GetNombres(string nombre)
+        {
+            var autores = await context.Autores.ToListAsync();
+            autores.RemoveAll(x => !x.Nombre.Contains(nombre));
+
+            if(autores.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            return autores;
         }
 
         [HttpPost]
