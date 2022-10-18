@@ -22,7 +22,8 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<List<Autor>>> Get()
         {
-            return await context.Autores.ToListAsync();
+            // El include es para traer los libros del autor
+            return await context.Autores.Include(x => x.Libros).ToListAsync();
         }
 
         [HttpPost]
