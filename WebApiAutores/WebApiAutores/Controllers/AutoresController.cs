@@ -40,14 +40,12 @@ namespace WebApiAutores.Controllers
         /*
          * Devuelve un autor segun su id
         */
-        public async Task<ActionResult<Autor>> GetId(int id)
+        public async Task<ActionResult<Autor>> GetId([FromRoute] int id)
         {
             var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Id == id);
 
             if(autor is null)
-            {
                 return NotFound();
-            }
 
             return autor;
         }
@@ -59,14 +57,12 @@ namespace WebApiAutores.Controllers
          * Ejemplo Autor: Valentin Cabral
          * Si paso "Valentin" lo devuelve
         */
-        public async Task<ActionResult<Autor>> GetNombre (string nombre)
+        public async Task<ActionResult<Autor>> GetNombre ([FromRoute] string nombre)
         {
             var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Nombre.Contains(nombre));
 
             if(autor is null)
-            {
                 return NotFound();
-            }
 
             return autor;
         }
@@ -75,15 +71,13 @@ namespace WebApiAutores.Controllers
         /*
          * Devuelve la lista de todos los autores que contengan el string
         */
-        public async Task<ActionResult<List<Autor>>> GetNombres(string nombre)
+        public async Task<ActionResult<List<Autor>>> GetNombres([FromRoute] string nombre)
         {
             var autores = await context.Autores.ToListAsync();
             autores.RemoveAll(x => !x.Nombre.Contains(nombre));
 
             if(autores.Count() == 0)
-            {
                 return NotFound();
-            }
 
             return autores;
         }
@@ -94,7 +88,7 @@ namespace WebApiAutores.Controllers
          * Luego guarda los cambios de manera asincrona
          * y devuelve un ok si esta todo correcto
         */
-        public async Task<ActionResult> Post(Autor autor)
+        public async Task<ActionResult> Post([FromBody] Autor autor)
         {
             context.Add(autor);
             await context.SaveChangesAsync();
@@ -108,19 +102,15 @@ namespace WebApiAutores.Controllers
          * Luego verifica que ese Id coincida con el ID del autor nuevo que se pasa, o que existe algun autor con ese Id
          * Si coincide, lo actualiza, guarda los cambios y retorna ok.
         */
-        public async Task<ActionResult> Put(Autor autor, int id)
+        public async Task<ActionResult> Put([FromBody] Autor autor,[FromRoute] int id)
         {
             if(autor.Id != id)
-            {
                 return BadRequest("El Id del autor que se quiere actualizar no coincide con el Id de la URL");
-            }
 
             var existe = await context.Autores.AnyAsync(x => x.Id == id);
 
             if (!existe)
-            {
                 return NotFound();
-            }
 
             context.Update(autor);
             await context.SaveChangesAsync();
@@ -134,16 +124,14 @@ namespace WebApiAutores.Controllers
          * dado un Id en la URL, primero verifica que exista un autor con ese id
          * Luego si existe, lo remueve, guarda los cambios y retorna un ok
         */
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete([FromRoute] int id)
         {
             // Algun autor con el Id == id
             var existe = await context.Autores.AnyAsync(x => x.Id == id);
 
             if (!existe)
-            {
                 //No encontrado
                 return NotFound();
-            }
 
             // Borra el autor con Id = id
             context.Remove(new Autor() { Id = id });

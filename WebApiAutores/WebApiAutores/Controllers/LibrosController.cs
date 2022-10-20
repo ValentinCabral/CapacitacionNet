@@ -23,13 +23,11 @@ namespace WebApiAutores.Controllers
          * con el Id pasado por URL
          * A su vez, traigo el Autor de ese libro.
         */
-        public async Task<ActionResult<Libro>> Get(int id)
+        public async Task<ActionResult<Libro>> Get([FromRoute] int id)
         {
             var existeLibro = await context.Libros.AnyAsync(x => x.Id == id);
             if (!existeLibro)
-            {
                 return NotFound();
-            }
             // Con el include traigo el autor de ese libro
             return await context.Libros.Include(x => x.Autor).FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -42,13 +40,11 @@ namespace WebApiAutores.Controllers
          * primero verifica que exista un autor con el AutorId de ese libro
          * Luego lo agrega al DbContext, guarda los cambios, y retorna un ok
         */
-        public async Task<ActionResult> Post(Libro libro)
+        public async Task<ActionResult> Post([FromBody] Libro libro)
         {
             var existeAutor = await context.Autores.AnyAsync(x => x.Id == libro.AutorId);
             if (!existeAutor)
-            {
                 return BadRequest($"No existe el autor de Id: {libro.AutorId}");
-            }
 
             context.Add(libro);
             await context.SaveChangesAsync();
