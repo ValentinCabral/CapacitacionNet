@@ -24,10 +24,12 @@ namespace WebApiAutores.Controllers
          * Este método Get devuelve una lista de autores
          * La cual la trae desde la tabla Autores del DbContext
         */
-        public async Task<ActionResult<List<Autor>>> Get()
+        public async Task<ActionResult<List<AutorActualizacionDTO>>> Get()
         {
             // El include es para traer los libros del autor
-            return await context.Autores.Include(x => x.Libros).ToListAsync();
+           var autores =  await context.Autores.Include(x => x.Libros).ToListAsync(); // Obtengo todos los tipo <Autor>
+
+            return mapper.Map<List<AutorActualizacionDTO>>(autores); // Mapeo los autores desde <Autor> a <AutorActualizacionDTO> y retorno
         }
 
 
@@ -35,14 +37,14 @@ namespace WebApiAutores.Controllers
         /*
          * Devuelve un autor segun su id
         */
-        public async Task<ActionResult<Autor>> GetId([FromRoute] int id)
+        public async Task<ActionResult<AutorActualizacionDTO>> GetId([FromRoute] int id)
         {
             var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Id == id); // Primero que encuentre
 
             if (autor is null) //No encontro ninguno
                 return NotFound();
 
-            return autor;
+            return mapper.Map<AutorActualizacionDTO>(autor); // Mapeo el <Autor> hacia <AutorActualizacionDTO>
         }
 
         [HttpGet("{nombre}")]
@@ -52,21 +54,21 @@ namespace WebApiAutores.Controllers
          * Ejemplo Autor: Valentin Cabral
          * Si paso "Valentin" lo devuelve
         */
-        public async Task<ActionResult<Autor>> GetNombre([FromRoute] string nombre)
+        public async Task<ActionResult<AutorActualizacionDTO>> GetNombre([FromRoute] string nombre)
         {
             var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Nombre.Contains(nombre)); //Primero que encuentre
 
             if (autor is null) //No encontro ninguno
                 return NotFound();
 
-            return autor;
+            return mapper.Map<AutorActualizacionDTO>(autor); // Mapeo el <Autor> hacia <AutorActualizacionDTO>
         }
 
         [HttpGet("listado/{nombre}")]
         /*
          * Devuelve la lista de todos los autores que contengan el string
         */
-        public async Task<ActionResult<List<Autor>>> GetNombres([FromRoute] string nombre)
+        public async Task<ActionResult<List<AutorActualizacionDTO>>> GetNombres([FromRoute] string nombre)
         {
             var autores = await context.Autores.ToListAsync(); //Lista con todos los autores
             autores.RemoveAll(x => !x.Nombre.Contains(nombre)); //Remuevo los autores que no tengan el nombre dentro
@@ -74,7 +76,7 @@ namespace WebApiAutores.Controllers
             if(autores.Count() == 0) //Ninguno tiene el nombre
                 return NotFound();
 
-            return autores;
+            return mapper.Map<List<AutorActualizacionDTO>>(autores); // Mapeo los autores desde <Autor> a <AutorActualizacionDTO> y retorno
         }
 
         [HttpPost]
