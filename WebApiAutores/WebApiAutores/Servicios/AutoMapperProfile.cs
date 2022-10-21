@@ -10,8 +10,10 @@ namespace WebApiAutores.Servicios
         {
             CreateMap<AutorCreacionDTO, Autor>();
             CreateMap<AutorActualizacionDTO, Autor>();
-            CreateMap<LibroCreacionDTO, Libro>();
             CreateMap<Autor, AutorActualizacionDTO>();
+            CreateMap<LibroCreacionDTO, Libro>();
+            CreateMap<Libro, LibroDTO>();
+
         }
     }
 }

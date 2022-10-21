@@ -27,13 +27,17 @@ namespace WebApiAutores.Controllers
          * con el Id pasado por URL
          * A su vez, traigo el Autor de ese libro.
         */
-        public async Task<ActionResult<Libro>> Get([FromRoute] int id)
+        public async Task<ActionResult<LibroDTO>> Get([FromRoute] int id)
         {
-            var existeLibro = await context.Libros.AnyAsync(x => x.Id == id);
-            if (!existeLibro)
+            var existeLibro = await context.Libros.AnyAsync(x => x.Id == id); // Booleano
+            if (!existeLibro) // No existe ninguno con ese Id
                 return NotFound();
+
+
             // Con el include traigo el autor de ese libro
-            return await context.Libros.Include(x => x.Autor).FirstOrDefaultAsync(x => x.Id == id);
+            var libro = await context.Libros.Include(x => x.Autor).FirstOrDefaultAsync(x => x.Id == id); // Libro con ese id
+            
+            return mapper.Map<LibroDTO>(libro);
         }
 
 
