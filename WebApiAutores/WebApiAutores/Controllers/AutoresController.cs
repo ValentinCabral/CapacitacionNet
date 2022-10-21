@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApiAutores.DTOs;
 using WebApiAutores.Entidades;
 
 namespace WebApiAutores.Controllers
@@ -9,14 +11,15 @@ namespace WebApiAutores.Controllers
     public class AutoresController : ControllerBase
     {
         private readonly ApplicationDbContext context;
+        private readonly IMapper mapper;
 
-        public AutoresController(ApplicationDbContext context)
+        public AutoresController(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        [HttpGet("/listado")]
         /*
          * Este método Get devuelve una lista de autores
          * La cual la trae desde la tabla Autores del DbContext
@@ -27,14 +30,6 @@ namespace WebApiAutores.Controllers
             return await context.Autores.Include(x => x.Libros).ToListAsync();
         }
 
-        [HttpGet("primero")]
-        /*
-         * Devuelve solo el primer autor
-        */
-        public async Task<ActionResult<Autor>> PrimerAutor()
-        {
-            return await context.Autores.FirstOrDefaultAsync();
-        }
 
         [HttpGet("{id:int}")]
         /*
@@ -42,9 +37,9 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<Autor>> GetId([FromRoute] int id)
         {
-            var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Id == id);
+            var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Id == id); // Primero que encuentre
 
-            if(autor is null)
+            if (autor is null) //No encontro ninguno
                 return NotFound();
 
             return autor;
@@ -57,11 +52,11 @@ namespace WebApiAutores.Controllers
          * Ejemplo Autor: Valentin Cabral
          * Si paso "Valentin" lo devuelve
         */
-        public async Task<ActionResult<Autor>> GetNombre ([FromRoute] string nombre)
+        public async Task<ActionResult<Autor>> GetNombre([FromRoute] string nombre)
         {
-            var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Nombre.Contains(nombre));
+            var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Nombre.Contains(nombre)); //Primero que encuentre
 
-            if(autor is null)
+            if (autor is null) //No encontro ninguno
                 return NotFound();
 
             return autor;
@@ -73,10 +68,10 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<List<Autor>>> GetNombres([FromRoute] string nombre)
         {
-            var autores = await context.Autores.ToListAsync();
-            autores.RemoveAll(x => !x.Nombre.Contains(nombre));
+            var autores = await context.Autores.ToListAsync(); //Lista con todos los autores
+            autores.RemoveAll(x => !x.Nombre.Contains(nombre)); //Remuevo los autores que no tengan el nombre dentro
 
-            if(autores.Count() == 0)
+            if(autores.Count() == 0) //Ninguno tiene el nombre
                 return NotFound();
 
             return autores;
@@ -88,15 +83,19 @@ namespace WebApiAutores.Controllers
          * Luego guarda los cambios de manera asincrona
          * y devuelve un ok si esta todo correcto
         */
-        public async Task<ActionResult> Post([FromBody] Autor autor)
+        public async Task<ActionResult> Post([FromBody] AutorCreacionDTO autorDTO)
         {
-            var yaExisteAutor = await context.Autores.AnyAsync(x => x.Nombre == autor.Nombre);
+            var yaExisteAutor = await context.Autores.AnyAsync(x => x.Nombre == autorDTO.Nombre); // Booleano
 
-            if (yaExisteAutor)
+            if (yaExisteAutor) //Ya existe un autor con ese nombre
                 return BadRequest("Ya existe un autor con ese nombre");
 
-            context.Add(autor);
-            await context.SaveChangesAsync();
+
+            //Mapeo del autorDTO a un autor
+            var autor = mapper.Map<Autor>(autorDTO);
+
+            context.Add(autor); // Agrego el autor
+            await context.SaveChangesAsync(); //Persisto los datos en la BD
             return Ok();
         }
 
@@ -107,18 +106,21 @@ namespace WebApiAutores.Controllers
          * Luego verifica que ese Id coincida con el ID del autor nuevo que se pasa, o que existe algun autor con ese Id
          * Si coincide, lo actualiza, guarda los cambios y retorna ok.
         */
-        public async Task<ActionResult> Put([FromBody] Autor autor,[FromRoute] int id)
+        public async Task<ActionResult> Put([FromBody] AutorActualizacionDTO autorDTO,[FromRoute] int id)
         {
-            if(autor.Id != id)
+            if(autorDTO.Id != id) // El id del nuevo autor no coincide con el id de la url
                 return BadRequest("El Id del autor que se quiere actualizar no coincide con el Id de la URL");
 
-            var existe = await context.Autores.AnyAsync(x => x.Id == id);
+            var existe = await context.Autores.AnyAsync(x => x.Id == id); // Booleano
 
-            if (!existe)
+            if (!existe) //No existe ese autor
                 return NotFound();
 
-            context.Update(autor);
-            await context.SaveChangesAsync();
+            // Mapeo el dto a autor
+            var autor = mapper.Map<Autor>(autorDTO);
+
+            context.Update(autor); //Agrego el autor
+            await context.SaveChangesAsync(); //Persisto los datos en la BD
             return Ok();
         }
 

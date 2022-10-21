@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApiAutores.DTOs;
 using WebApiAutores.Entidades;
 
 namespace WebApiAutores.Controllers
@@ -9,10 +11,12 @@ namespace WebApiAutores.Controllers
     public class LibrosController : ControllerBase
     {
         private readonly ApplicationDbContext context;
+        private readonly IMapper mapper;
 
-        public LibrosController(ApplicationDbContext context)
+        public LibrosController(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
 
@@ -40,14 +44,17 @@ namespace WebApiAutores.Controllers
          * primero verifica que exista un autor con el AutorId de ese libro
          * Luego lo agrega al DbContext, guarda los cambios, y retorna un ok
         */
-        public async Task<ActionResult> Post([FromBody] Libro libro)
+        public async Task<ActionResult> Post([FromBody] LibroCreacionDTO libroDTO)
         {
-            var existeAutor = await context.Autores.AnyAsync(x => x.Id == libro.AutorId);
+            var existeAutor = await context.Autores.AnyAsync(x => x.Id == libroDTO.AutorId); // Booleano
             if (!existeAutor)
-                return BadRequest($"No existe el autor de Id: {libro.AutorId}");
+                return BadRequest($"No existe el autor de Id: {libroDTO.AutorId}");
 
-            context.Add(libro);
-            await context.SaveChangesAsync();
+            //Mapeo el dto a libro
+            var libro = mapper.Map<Libro>(libroDTO);
+
+            context.Add(libro); //Agrego el libro
+            await context.SaveChangesAsync(); //Persisto la data en la DB
             return Ok();
         }
     }

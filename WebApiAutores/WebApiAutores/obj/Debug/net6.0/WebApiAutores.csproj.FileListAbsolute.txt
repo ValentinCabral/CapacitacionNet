@@ -60,3 +60,5 @@ C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\obj\Debug\net6.0\r
 C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\obj\Debug\net6.0\WebApiAutores.pdb
 C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\obj\Debug\net6.0\WebApiAutores.genruntimeconfig.cache
 C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\obj\Debug\net6.0\ref\WebApiAutores.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
