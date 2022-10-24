@@ -20,6 +20,13 @@ namespace WebApiAutores.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<ActionResult<List<LibroDTO>>> Get()
+        {
+            var libros = await context.Libros.Include(x => x.Autor).Include(x => x.Comentarios).ToListAsync();
+
+            return mapper.Map <List<LibroDTO>>(libros);
+        }
 
         [HttpGet("{id:int}")] // api/libros/Id
         /*

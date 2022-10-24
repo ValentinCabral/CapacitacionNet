@@ -52,7 +52,7 @@ namespace WebApiAutores.Controllers
          * Devuelve un autor segun su nombre
          * Si contiene el string tambien lo devuelve
          * Ejemplo Autor: Valentin Cabral
-         * Si paso "Valentin" lo devuelve
+         * Si paso "Valen" lo devuelve
         */
         public async Task<ActionResult<AutorActualizacionDTO>> GetNombre([FromRoute] string nombre)
         {
