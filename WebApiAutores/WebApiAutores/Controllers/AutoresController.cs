@@ -27,7 +27,7 @@ namespace WebApiAutores.Controllers
         public async Task<ActionResult<List<AutorActualizacionDTO>>> Get()
         {
             // El include es para traer los libros del autor
-           var autores =  await context.Autores.Include(x => x.Libros).ToListAsync(); // Obtengo todos los tipo <Autor>
+           var autores =  await context.Autores.ToListAsync(); // Obtengo todos los tipo <Autor>
 
             return mapper.Map<List<AutorActualizacionDTO>>(autores); // Mapeo los autores desde <Autor> a <AutorActualizacionDTO> y retorno
         }
@@ -39,7 +39,7 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<AutorActualizacionDTO>> GetId([FromRoute] int id)
         {
-            var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Id == id); // Primero que encuentre
+            var autor = await context.Autores.FirstOrDefaultAsync(x => x.Id == id); // Primero que encuentre
 
             if (autor is null) //No encontro ninguno
                 return NotFound();
@@ -56,7 +56,7 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<AutorActualizacionDTO>> GetNombre([FromRoute] string nombre)
         {
-            var autor = await context.Autores.Include(x => x.Libros).FirstOrDefaultAsync(x => x.Nombre.Contains(nombre)); //Primero que encuentre
+            var autor = await context.Autores.FirstOrDefaultAsync(x => x.Nombre.Contains(nombre)); //Primero que encuentre
 
             if (autor is null) //No encontro ninguno
                 return NotFound();

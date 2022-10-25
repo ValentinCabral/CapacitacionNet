@@ -19,7 +19,7 @@ namespace WebApiAutores.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ComentarioDTO>>> Get(int libroId)
+        public async Task<ActionResult<List<ComentarioDTO>>> Get([FromRoute] int libroId)
         {
             var existeLibro = await context.Libros.AnyAsync(x => x.Id == libroId);
 
@@ -32,7 +32,7 @@ namespace WebApiAutores.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(int libroId, ComentarioCreacionDTO comentarioDTO)
+        public async Task<ActionResult> Post([FromRoute] int libroId,[FromBody] ComentarioCreacionDTO comentarioDTO)
         {
             var existeLibro = await context.Libros.AnyAsync(x => x.Id == libroId);
 
