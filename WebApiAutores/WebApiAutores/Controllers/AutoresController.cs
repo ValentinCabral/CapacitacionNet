@@ -26,8 +26,11 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<List<AutorActualizacionDTO>>> Get()
         {
-            // El include es para traer los libros del autor
-           var autores =  await context.Autores.ToListAsync(); // Obtengo todos los tipo <Autor>
+            // Obtengo todos los tipo <Autor>
+            var autores =  await context.Autores
+                .Include(x => x.AutoresLibros) // Incluyo los libros del Autor
+                .ThenInclude(autorLibro => autorLibro.Libro)
+                .ToListAsync();  // A una lista
 
             return mapper.Map<List<AutorActualizacionDTO>>(autores); // Mapeo los autores desde <Autor> a <AutorActualizacionDTO> y retorno
         }
@@ -39,7 +42,10 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<AutorActualizacionDTO>> GetId([FromRoute] int id)
         {
-            var autor = await context.Autores.FirstOrDefaultAsync(x => x.Id == id); // Primero que encuentre
+            var autor = await context.Autores
+                .Include(x => x.AutoresLibros) // Incluyo los libros del autor
+                .ThenInclude(autorLibro => autorLibro.Libro)
+                .FirstOrDefaultAsync(x => x.Id == id); // Primero que encuentre
 
             if (autor is null) //No encontro ninguno
                 return NotFound();
@@ -56,7 +62,10 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<AutorActualizacionDTO>> GetNombre([FromRoute] string nombre)
         {
-            var autor = await context.Autores.FirstOrDefaultAsync(x => x.Nombre.Contains(nombre)); //Primero que encuentre
+            var autor = await context.Autores
+                .Include(x => x.AutoresLibros) // Incluyo los libros del autor
+                .ThenInclude(autorLibro => autorLibro.Libro)
+                .FirstOrDefaultAsync(x => x.Nombre.Contains(nombre)); //Primero que encuentre
 
             if (autor is null) //No encontro ninguno
                 return NotFound();
@@ -70,7 +79,10 @@ namespace WebApiAutores.Controllers
         */
         public async Task<ActionResult<List<AutorActualizacionDTO>>> GetNombres([FromRoute] string nombre)
         {
-            var autores = await context.Autores.ToListAsync(); //Lista con todos los autores
+            var autores = await context.Autores
+                .Include(x => x.AutoresLibros) // Incluyo los libros de los autores
+                .ThenInclude(autorLibro => autorLibro.Libro)
+                .ToListAsync(); //Lista con todos los autores
             autores.RemoveAll(x => !x.Nombre.Contains(nombre)); //Remuevo los autores que no tengan el nombre dentro
 
             if(autores.Count() == 0) //Ninguno tiene el nombre
