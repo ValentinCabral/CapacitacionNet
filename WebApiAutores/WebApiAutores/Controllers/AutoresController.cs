@@ -24,7 +24,7 @@ namespace WebApiAutores.Controllers
          * Este método Get devuelve una lista de autores
          * La cual la trae desde la tabla Autores del DbContext
         */
-        public async Task<ActionResult<List<AutorActualizacionDTO>>> Get()
+        public async Task<ActionResult<List<AutorDTO>>> Get()
         {
             // Obtengo todos los tipo <Autor>
             var autores =  await context.Autores
@@ -32,15 +32,15 @@ namespace WebApiAutores.Controllers
                 .ThenInclude(autorLibro => autorLibro.Libro)
                 .ToListAsync();  // A una lista
 
-            return mapper.Map<List<AutorActualizacionDTO>>(autores); // Mapeo los autores desde <Autor> a <AutorActualizacionDTO> y retorno
+            return mapper.Map<List<AutorDTO>>(autores); // Mapeo los autores desde <Autor> a <AutorDTO> y retorno
         }
 
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "obtenerAutorId")]
         /*
          * Devuelve un autor segun su id
         */
-        public async Task<ActionResult<AutorActualizacionDTO>> GetId([FromRoute] int id)
+        public async Task<ActionResult<AutorDTO>> GetId([FromRoute] int id)
         {
             var autor = await context.Autores
                 .Include(x => x.AutoresLibros) // Incluyo los libros del autor
@@ -50,7 +50,7 @@ namespace WebApiAutores.Controllers
             if (autor is null) //No encontro ninguno
                 return NotFound();
 
-            return mapper.Map<AutorActualizacionDTO>(autor); // Mapeo el <Autor> hacia <AutorActualizacionDTO>
+            return mapper.Map<AutorDTO>(autor); // Mapeo el <Autor> hacia <AutorDTO>
         }
 
         [HttpGet("{nombre}")]
@@ -60,7 +60,7 @@ namespace WebApiAutores.Controllers
          * Ejemplo Autor: Valentin Cabral
          * Si paso "Valen" lo devuelve
         */
-        public async Task<ActionResult<AutorActualizacionDTO>> GetNombre([FromRoute] string nombre)
+        public async Task<ActionResult<AutorDTO>> GetNombre([FromRoute] string nombre)
         {
             var autor = await context.Autores
                 .Include(x => x.AutoresLibros) // Incluyo los libros del autor
@@ -70,14 +70,14 @@ namespace WebApiAutores.Controllers
             if (autor is null) //No encontro ninguno
                 return NotFound();
 
-            return mapper.Map<AutorActualizacionDTO>(autor); // Mapeo el <Autor> hacia <AutorActualizacionDTO>
+            return mapper.Map<AutorDTO>(autor); // Mapeo el <Autor> hacia <AutorDTO>
         }
 
         [HttpGet("listado/{nombre}")]
         /*
          * Devuelve la lista de todos los autores que contengan el string
         */
-        public async Task<ActionResult<List<AutorActualizacionDTO>>> GetNombres([FromRoute] string nombre)
+        public async Task<ActionResult<List<AutorDTO>>> GetNombres([FromRoute] string nombre)
         {
             var autores = await context.Autores
                 .Include(x => x.AutoresLibros) // Incluyo los libros de los autores
@@ -88,7 +88,7 @@ namespace WebApiAutores.Controllers
             if(autores.Count() == 0) //Ninguno tiene el nombre
                 return NotFound();
 
-            return mapper.Map<List<AutorActualizacionDTO>>(autores); // Mapeo los autores desde <Autor> a <AutorActualizacionDTO> y retorno
+            return mapper.Map<List<AutorDTO>>(autores); // Mapeo los autores desde <Autor> a <AutorDTO> y retorno
         }
 
         [HttpPost]
@@ -110,7 +110,9 @@ namespace WebApiAutores.Controllers
 
             context.Add(autor); // Agrego el autor
             await context.SaveChangesAsync(); //Persisto los datos en la BD
-            return Ok();
+
+            var autorRetornoDTO = mapper.Map<AutorDTO>(autor);  // Creo un nuevo AutorDTO para retornarlo en la ruta
+            return CreatedAtRoute("obtenerAutorId",new {id = autor.Id },  autorRetornoDTO); // Nombre de la ruta, parametro de esa ruta, y el objeto
         }
 
         [HttpPut("{id:int}")] // api/autores/Id
@@ -120,10 +122,8 @@ namespace WebApiAutores.Controllers
          * Luego verifica que ese Id coincida con el ID del autor nuevo que se pasa, o que existe algun autor con ese Id
          * Si coincide, lo actualiza, guarda los cambios y retorna ok.
         */
-        public async Task<ActionResult> Put([FromBody] AutorActualizacionDTO autorDTO,[FromRoute] int id)
+        public async Task<ActionResult> Put([FromBody] AutorCreacionDTO autorDTO,[FromRoute] int id)
         {
-            if(autorDTO.Id != id) // El id del nuevo autor no coincide con el id de la url
-                return BadRequest("El Id del autor que se quiere actualizar no coincide con el Id de la URL");
 
             var existe = await context.Autores.AnyAsync(x => x.Id == id); // Booleano
 
@@ -132,6 +132,7 @@ namespace WebApiAutores.Controllers
 
             // Mapeo el dto a autor
             var autor = mapper.Map<Autor>(autorDTO);
+            autor.Id = id;
 
             context.Update(autor); //Agrego el autor
             await context.SaveChangesAsync(); //Persisto los datos en la BD

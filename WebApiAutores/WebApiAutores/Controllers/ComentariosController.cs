@@ -31,6 +31,22 @@ namespace WebApiAutores.Controllers
             return mapper.Map<List<ComentarioDTO>>(comentarios);
         }
 
+        [HttpGet("{id:int}", Name = "ObtenerComentarioId")]
+        public async Task<ActionResult<ComentarioDTO>> GetPorId([FromRoute] int libroId, [FromRoute] int id)
+        {
+            var existeLibro = await context.Libros.AnyAsync(x => x.Id == libroId);
+
+            if (!existeLibro)
+                return NotFound();
+
+            var comentario = await context.Comentarios.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (comentario is null)
+                return NotFound();
+
+            return mapper.Map<ComentarioDTO>(comentario);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromRoute] int libroId,[FromBody] ComentarioCreacionDTO comentarioDTO)
         {
@@ -43,7 +59,30 @@ namespace WebApiAutores.Controllers
             comentario.LibroId = libroId;
             context.Add(comentario);
             await context.SaveChangesAsync();
-            return Ok();
+            var comentarioDTORetorno = mapper.Map<ComentarioDTO>(comentario);
+            return CreatedAtRoute("ObtenerComentarioId", new { libroId = libroId, id = comentario.Id }, comentarioDTORetorno);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put([FromRoute] int libroId,[FromRoute] int id,[FromBody] ComentarioCreacionDTO comentarioCreacionDTO)
+        {
+            var existeLibro = await context.Libros.AnyAsync(x => x.Id == libroId);
+
+            if (!existeLibro)
+                return NotFound();
+
+            var existeComentario = await context.Comentarios.AnyAsync(x => x.Id == id);
+            
+            if (!existeComentario)
+                return NotFound();
+
+            var comentario = mapper.Map<Comentario>(comentarioCreacionDTO);
+            comentario.Id = id;
+            comentario.LibroId = libroId;
+
+            context.Update(comentario);
+            await context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

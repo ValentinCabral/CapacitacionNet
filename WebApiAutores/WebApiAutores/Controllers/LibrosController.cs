@@ -40,7 +40,7 @@ namespace WebApiAutores.Controllers
             return mapper.Map <List<LibroDTO>>(libros);
         }
 
-        [HttpGet("{id:int}")] // api/libros/Id
+        [HttpGet("{id:int}", Name = "ObtenerLibroId")] // api/libros/Id
         /*
          * Con este método Get traigo el primer libro que coincida
          * con el Id pasado por URL
@@ -99,7 +99,9 @@ namespace WebApiAutores.Controllers
 
             context.Add(libro); // Agrego el libro
             await context.SaveChangesAsync(); // Persisto y guardo los cambios en la BD
-            return Ok();
+
+            var libroDTORetorno = mapper.Map<LibroAutoresDTO>(libro);
+            return CreatedAtRoute("ObtenerLibroId", new {id = libro.Id}, libroDTORetorno);
         }
     }
 }

@@ -11,8 +11,8 @@ namespace WebApiAutores.Servicios
         {
             //Autores 
             CreateMap<AutorCreacionDTO, Autor>();
-            CreateMap<AutorActualizacionDTO, Autor>();
-            CreateMap<Autor, AutorActualizacionDTO>()
+            CreateMap<AutorDTO, Autor>();
+            CreateMap<Autor, AutorDTO>()
                 .ForMember(autorActualizacionDTO => autorActualizacionDTO.Libros, opciones => opciones.MapFrom(MapAutorDTOLibros));
             
             // Libros
@@ -45,23 +45,23 @@ namespace WebApiAutores.Servicios
         }
 
 
-        //Devuelvo una lista de AutorActualizacionDTO (Id, Nombre)
-        private List<AutorActualizacionDTO> MapLibroDTOAutores(Libro libro, LibroDTO libroDTO)
+        //Devuelvo una lista de AutorDTO (Id, Nombre)
+        private List<AutorDTO> MapLibroDTOAutores(Libro libro, LibroDTO libroDTO)
         {
-            var resultado = new List<AutorActualizacionDTO>(); // El resultado que voy a devolver
+            var resultado = new List<AutorDTO>(); // El resultado que voy a devolver
 
             if (libro.AutoresLibros is null) // Si no tengo ningún autor devuelvo el resultado vacio
                 return resultado;
 
             foreach(var autorLibro in libro.AutoresLibros) // Por cada autorLibro en AutoresLibros
             {
-                resultado.Add(new AutorActualizacionDTO { Id = autorLibro.AutorId, Nombre = autorLibro.Autor.Nombre }); // Creo un nuevo autor y asigno su id y nombre
+                resultado.Add(new AutorDTO { Id = autorLibro.AutorId, Nombre = autorLibro.Autor.Nombre }); // Creo un nuevo autor y asigno su id y nombre
             }
 
             return resultado;
         }
 
-        private List<LibroAutoresDTO> MapAutorDTOLibros(Autor autor, AutorActualizacionDTO autorActualizacionDTO)
+        private List<LibroAutoresDTO> MapAutorDTOLibros(Autor autor, AutorDTO autorActualizacionDTO)
         {
             var resultado = new List<LibroAutoresDTO>(); // El resultado que voy a devolver
 

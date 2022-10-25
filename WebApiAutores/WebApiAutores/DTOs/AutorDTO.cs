@@ -1,16 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiAutores.Entidades;
 using WebApiAutores.Validaciones;
 
 namespace WebApiAutores.DTOs
 {
-    public class LibroDTO
+    public class AutorDTO
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
+        [StringLength(maximumLength: 50, ErrorMessage = "El campo {0} no debe tener más de {1} carácteres")]
         [PrimeraLetraMayuscula(ErrorMessage = "La primer letra del campo {0} debe ser una mayúscula")]
-        public string Titulo { get; set; }
-        public List<ComentarioDTO> Comentarios { get; set; }
-        public List<AutorDTO> Autores { get; set; }
+        public string Nombre { get; set; }
+        public List<LibroAutoresDTO> Libros { get; set; }
     }
 }
