@@ -10,6 +10,7 @@ namespace WebApiAutores.Entidades
         [PrimeraLetraMayuscula(ErrorMessage = "La primer letra del campo {0} debe ser una mayúscula")]
         public string Titulo { get; set; }
         [Required(ErrorMessage = "El campo {0 es requerido}")]
+        public DateTime? FechaPublicacion { get; set; }
         public List<Comentario> Comentarios { get; set; }
         public List<AutorLibro> AutoresLibros { get; set; }
     }

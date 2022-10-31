@@ -10,6 +10,7 @@ namespace WebApiAutores.DTOs
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [PrimeraLetraMayuscula(ErrorMessage = "La primer letra del campo {0} debe ser una mayúscula")]
         public string Titulo { get; set; }
+        public DateTime FechaPublicacion { get; set; }
         public List<ComentarioDTO> Comentarios { get; set; }
         public List<AutorDTO> Autores { get; set; }
     }

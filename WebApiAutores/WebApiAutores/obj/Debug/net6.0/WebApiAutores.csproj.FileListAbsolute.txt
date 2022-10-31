@@ -62,3 +62,13 @@ C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\obj\Debug\net6.0\W
 C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\obj\Debug\net6.0\ref\WebApiAutores.dll
 C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\vcabral\Desktop\Curso C#\WebApiAutores\WebApiAutores\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

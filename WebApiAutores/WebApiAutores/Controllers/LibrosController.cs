@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiAutores.DTOs;
@@ -21,6 +24,7 @@ namespace WebApiAutores.Controllers
 
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<LibroDTO>>> Get()
         {
             // Lista de todos los libris
@@ -89,19 +93,94 @@ namespace WebApiAutores.Controllers
 
             var libro = mapper.Map<Libro>(libroCreacionDTO);  // Mapeo desde LibroCreacionDTO a libro (usando el mapeo especial)
 
-            if(libro.AutoresLibros != null) // Si tiene elementos
-            {
-                for(int i = 0; i < libro.AutoresLibros.Count; i++)
-                {
-                    libro.AutoresLibros[i].Orden = i; // Los ordeno 
-                }
-            }
+            AsignarOrdenAutores(libro);
+        
 
             context.Add(libro); // Agrego el libro
             await context.SaveChangesAsync(); // Persisto y guardo los cambios en la BD
 
             var libroDTORetorno = mapper.Map<LibroAutoresDTO>(libro);
             return CreatedAtRoute("ObtenerLibroId", new {id = libro.Id}, libroDTORetorno);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(int id, LibroCreacionDTO libroCreacionDTO)
+        {
+            var libro = await context.Libros
+                .Include(x => x.AutoresLibros)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (libro is null)
+                return NotFound();
+
+            /*
+             * Llevo las propiedades de libroCreacionDTO hacia libro
+             * por lo que actualizo libro
+             * y asigno el resultado en libro
+            */
+
+            libro = mapper.Map(libroCreacionDTO, libro);
+
+            AsignarOrdenAutores(libro);
+
+            await context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpPatch("{id:int}")]
+        public async Task<ActionResult> Patch([FromRoute] int id, JsonPatchDocument<LibroPatchDTO> patchDocument)
+        {
+            if (patchDocument is null)
+                return BadRequest();
+
+            var libro = await context.Libros.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (libro is null)
+                return NotFound();
+
+            var libroDTO = mapper.Map<LibroPatchDTO>(libro);
+
+
+            // Aplico los cambios que vienen desde el patchDocument en libroDTO
+            patchDocument.ApplyTo(libroDTO, ModelState); // Paso el ModelState para que se guarde ahi en caso de que existe algún error
+
+            var esValido = TryValidateModel(libroDTO); // Para verificar que todo lo que quedo en libroDTO es válido
+
+            if (!esValido)
+                return BadRequest(ModelState);
+
+            // Hago los cambios
+            mapper.Map(libroDTO, libro);
+
+            await context.SaveChangesAsync(); // Persisto y guardo en la BD
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete([FromRoute] int id)
+        {
+            var existeLibro = await context.Libros.AnyAsync(x => x.Id == id);
+
+            if (!existeLibro)
+                return NotFound();
+
+            context.Remove(new Libro() { Id = id});
+            await context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        /*
+         * Ordena los autores del libro segun el campo orden
+        */
+        private void AsignarOrdenAutores(Libro libro)
+        {
+            if (libro.AutoresLibros != null) // Si tiene elementos
+            {
+                for (int i = 0; i < libro.AutoresLibros.Count; i++)
+                {
+                    libro.AutoresLibros[i].Orden = i; // Los ordeno 
+                }
+            }
         }
     }
 }
