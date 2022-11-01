@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiAutores.DTOs;
@@ -8,6 +10,7 @@ namespace WebApiAutores.Controllers
 {
     [Route("api/autores")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AutoresController : ControllerBase
     {
         private readonly ApplicationDbContext context;
@@ -20,6 +23,7 @@ namespace WebApiAutores.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         /*
          * Este método Get devuelve una lista de autores
          * La cual la trae desde la tabla Autores del DbContext
@@ -37,6 +41,7 @@ namespace WebApiAutores.Controllers
 
 
         [HttpGet("{id:int}", Name = "obtenerAutorId")]
+        [AllowAnonymous]
         /*
          * Devuelve un autor segun su id
         */
@@ -54,6 +59,7 @@ namespace WebApiAutores.Controllers
         }
 
         [HttpGet("{nombre}")]
+        [AllowAnonymous]
         /*
          * Devuelve un autor segun su nombre
          * Si contiene el string tambien lo devuelve
@@ -74,6 +80,7 @@ namespace WebApiAutores.Controllers
         }
 
         [HttpGet("listado/{nombre}")]
+        [AllowAnonymous]
         /*
          * Devuelve la lista de todos los autores que contengan el string
         */

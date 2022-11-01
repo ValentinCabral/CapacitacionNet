@@ -14,11 +14,13 @@ namespace WebApiAutores.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly IConfiguration configuration;
+        private readonly SignInManager<IdentityUser> signInManager;
 
-        public CuentasController(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public CuentasController(UserManager<IdentityUser> userManager, IConfiguration configuration, SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
             this.configuration = configuration;
+            this.signInManager = signInManager;
         }
 
         [HttpPost("registrar")] // api/cuentas/registrar
@@ -38,6 +40,21 @@ namespace WebApiAutores.Controllers
             {
                 return BadRequest(resultado.Errors); // Si no se creo correctamente el usuario devuelvo los errores
             }
+
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<RespuestaAutentificacion>> Login(CredencialesUsuario credencialesUsuario)
+        {
+
+            // isPersistent y lockoutOnFailure son campos que no uso, por eso los pongo en false
+            var resultado = await signInManager.PasswordSignInAsync(credencialesUsuario.Email, credencialesUsuario.Password, 
+                isPersistent: false, lockoutOnFailure: false);
+
+            if (resultado.Succeeded) // Si fue exitoso el logueo
+                return ConstruirToken(credencialesUsuario);  // Devuelvo el token de logueo
+
+            return BadRequest("Login incorrecto");
 
         }
 
