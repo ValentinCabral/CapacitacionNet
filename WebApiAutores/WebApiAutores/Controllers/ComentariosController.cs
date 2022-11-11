@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiAutores.DTOs;
@@ -12,10 +15,13 @@ namespace WebApiAutores.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
-        public ComentariosController(ApplicationDbContext context, IMapper mapper)
+        private readonly UserManager<IdentityUser> userManager;
+
+        public ComentariosController(ApplicationDbContext context, IMapper mapper, UserManager<IdentityUser> userManager)
         {
             this.context = context;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -48,8 +54,23 @@ namespace WebApiAutores.Controllers
         }
 
         [HttpPost]
+
+        // Esto va a hacer que este endpoind necesite autentificacion, y también me permite acceder a los claims del usuario
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Post([FromRoute] int libroId,[FromBody] ComentarioCreacionDTO comentarioDTO)
         {
+
+            // Obtengo el claim del email que viene desde HttpContext
+            var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
+            // Obtengo el valor del claim de email
+            var email = emailClaim.Value;
+
+            // Obtengo el usuario
+            var usuario = await userManager.FindByEmailAsync(email);
+
+            // Obtengo el Id del usuario
+            var usuarioId = usuario.Id;
+
             var existeLibro = await context.Libros.AnyAsync(x => x.Id == libroId);
 
             if (!existeLibro)
@@ -57,6 +78,9 @@ namespace WebApiAutores.Controllers
 
             var comentario = mapper.Map<Comentario>(comentarioDTO);
             comentario.LibroId = libroId;
+            // Agrego el Id del usuario
+            comentario.UsuarioId = usuarioId;
+
             context.Add(comentario);
             await context.SaveChangesAsync();
             var comentarioDTORetorno = mapper.Map<ComentarioDTO>(comentario);

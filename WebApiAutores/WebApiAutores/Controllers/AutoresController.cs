@@ -23,7 +23,6 @@ namespace WebApiAutores.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         /*
          * Este método Get devuelve una lista de autores
          * La cual la trae desde la tabla Autores del DbContext
