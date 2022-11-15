@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oPTSOlLAOMfP5FO6r5fg6LiTlx7jJ9NKFdxlc1QlbLLK6qQlRjlbAKUJNkfhyRFswngvb7EWgChZemh4O763lg==",
+  "dgSpecHash": "zfXMPUyyiZwhGN3tjyo3HyW2z/PXIuwfgd+7iU0yi+UhURyIO7YoPnCpH98i2oE2bAUAKaEq3CF0kTbtP6co8w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\WebApiAutores\\WebApiAutores\\WebApiAutores.csproj",
+  "projectFilePath": "C:\\Users\\vcabral\\Desktop\\Curso C#\\CapacitacionNet\\WebApiAutores\\WebApiAutores\\WebApiAutores.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vcabral\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\vcabral\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

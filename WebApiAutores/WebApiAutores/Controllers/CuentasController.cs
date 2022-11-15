@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -34,7 +36,7 @@ namespace WebApiAutores.Controllers
             {
                 // Retorno el JWT, es decir el token que se le devuelve al cliente para que puedan autentificarse con el mismo
 
-                return ConstruirToken(credencialesUsuario);
+                return await ConstruirToken(credencialesUsuario);
             }
             else
             {
@@ -52,13 +54,58 @@ namespace WebApiAutores.Controllers
                 isPersistent: false, lockoutOnFailure: false);
 
             if (resultado.Succeeded) // Si fue exitoso el logueo
-                return ConstruirToken(credencialesUsuario);  // Devuelvo el token de logueo
+                return await ConstruirToken(credencialesUsuario);  // Devuelvo el token de logueo
 
             return BadRequest("Login incorrecto");
 
         }
 
-        private RespuestaAutentificacion ConstruirToken(CredencialesUsuario credencialesUsuario)
+        [HttpGet("RenovarToken")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult<RespuestaAutentificacion>> RenovarToken() {
+
+            // Traigo el claim email del usuario
+            var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
+            // Obtengo el valor de ese claim
+            var email = emailClaim.Value;
+
+            // Construyo las nuevas credenciales con el email del usuario que esta logueado
+            var credencialUsuario = new CredencialesUsuario()
+            {
+                Email = email
+            };
+
+            // Construyo el JWT y lo retorno
+            return await ConstruirToken(credencialUsuario);
+
+        }
+
+        [HttpPost("HacerAdmin")]
+        public async Task<ActionResult> HacerAdmin(EditarAdminDTO editarAdminDTO)
+        {
+            // Traigo el usuario que tenga ese email
+            var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
+            usuario.UserName = usuario.Email;
+            
+            // Agrego el claim a ese usuario, el valor del claim puede ser cualquier cosa. En este caso "1"
+            await userManager.AddClaimAsync(usuario, new Claim("esAdmin", "1"));
+            return NoContent();
+        }
+
+        [HttpPost("RemoverAdmin")]
+        public async Task<ActionResult> RemoverAdmin(EditarAdminDTO editarAdminDTO)
+        {
+            // Traigo el usuario a partir de su email
+            var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
+            usuario.UserName = usuario.Email;
+
+            // Remuevo el claim a ese usuario
+            await userManager.RemoveClaimAsync(usuario, new Claim("esAdmin", "1"));
+            return NoContent();
+        }
+
+
+        private async Task<RespuestaAutentificacion> ConstruirToken(CredencialesUsuario credencialesUsuario)
         {
             // Un claim es informacion del usuario en el cual confiamos
             // No se puede devolver un password u informacion importante en un claim ya que no son secretos, el usuario los ve
@@ -68,6 +115,11 @@ namespace WebApiAutores.Controllers
                 new Claim("email", credencialesUsuario.Email)
             };
 
+            var usuario = await userManager.FindByEmailAsync(credencialesUsuario.Email);
+
+            var claimsDB = await userManager.GetClaimsAsync(usuario);
+
+            claims.AddRange(claimsDB);
 
             // Construyo el token
             // Traigo la llave desde appsetings usando configuration
