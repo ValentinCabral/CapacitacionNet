@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApiAutores</name>
+    </assembly>
+    <members>
+        <member name="M:WebApiAutores.Controllers.AutoresController.Get">
+            <summary>
+            asdasdasda
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
